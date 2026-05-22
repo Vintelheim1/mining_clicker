@@ -1,0 +1,50 @@
+#clickBtn img {
+  width: 200px;
+  transition: transform 0.1s;
+}
+
+#clickBtn:active img {
+  transform: scale(0.9) rotate(-15deg);
+}
+
+/* анимация удара */
+#clickBtn img {
+  width: 200px;
+  transition: transform 0.1s;
+}
+
+#clickBtn:active img {
+  transform: scale(0.9) rotate(-15deg);
+}
+
+
+.dwarf-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px; /* ← теперь справа */
+  display: flex;
+  align-items: flex-end;
+  gap: 15px;
+}
+
+/* чтобы окно было слева от дворфа */
+.dialogue {
+  background: #2b2b2b;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 10px;
+  max-width: 200px;
+  font-size: 14px;
+  position: relative;
+}
+
+/* хвостик теперь смотрит вправо */
+.dialogue::after {
+  content: "";
+  position: absolute;
+  right: -10px; /* ← изменили */
+  bottom: 10px;
+  border-width: 10px;
+  border-style: solid;
+  border-color: transparent transparent transparent #2b2b2b;
+}

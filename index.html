@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Clicker</title>
+
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  background-image: url("https://cdna.artstation.com/p/assets/images/images/048/941/172/large/gleb-ppgorelov-5.jpg?1651307686");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  color: white;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4); /* уровень затемнения */
+  z-index: -1;
+}
+
+#goldText {
+  font-size: 40px;
+  margin-bottom: 20px;
+}
+
+#clickBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+#clickBtn img {
+  width: 200px;
+}
+
+button {
+  margin-top: 15px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+/* золото */
+.gold {
+  position: absolute;
+  width: 60px;
+  pointer-events: none;
+  animation: fly 1s ease-out forwards;
+}
+
+@keyframes fly {
+  0% { opacity: 1; transform: translate(0,0); }
+  100% { opacity: 0; transform: translate(var(--x), var(--y)); }
+}
+</style>
+</head>
+
+<body>
+
+<h1 id="goldText">Gold: 0</h1>
+
+<button id="clickBtn">
+  <img src="istockphoto-967674060-612x612-removebg-preview.png">
+</button>
+
+<button id="shopBtn">Dwarven forge</button>
+
+<script>
+const goldText = document.getElementById("goldText")
+const clickBtn = document.getElementById("clickBtn")
+const shopBtn = document.getElementById("shopBtn")
+
+let gold = localStorage.getItem("gold")
+gold = gold ? parseInt(gold) : 0
+
+let bonus = localStorage.getItem("bonus")
+bonus = bonus ? parseInt(bonus) : 1
+
+function updateUI() {
+  goldText.innerHTML = "Gold: " + gold
+}
+
+// клик
+clickBtn.addEventListener("click", (e) => {
+  gold += bonus
+  localStorage.setItem("gold", gold)
+  updateUI()
+
+  // анимация золота
+  const coin = document.createElement("img")
+  coin.src = "https://png.pngtree.com/png-vector/20240203/ourmid/pngtree-pure-gold-ore-isolated-png-image_11536656.png"
+  coin.className = "gold"
+
+  coin.style.left = e.clientX + "px"
+  coin.style.top = e.clientY + "px"
+
+  coin.style.setProperty("--x", (Math.random()*200-100)+"px")
+  coin.style.setProperty("--y", (Math.random()*-200)+"px")
+
+  document.body.appendChild(coin)
+  setTimeout(()=>coin.remove(),1000)
+})
+
+// переход в магазин
+shopBtn.addEventListener("click", () => {
+  window.location.href = "shop.html"
+})
+
+updateUI()
+</script>
+
+</body>
+</html>

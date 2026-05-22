@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dwarven Forge</title>
+
+<style>
+body {
+  background-image: url("https://cdnb.artstation.com/p/assets/images/images/043/786/253/large/andrea-forster-dwarven-blacksmith-s-shop-96.jpg?1638263504");
+  color: white;
+  text-align: center;
+  padding-top: 100px;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4); /* уровень затемнения */
+  z-index: -1;
+}
+
+button {
+  padding: 10px 20px;
+  margin: 10px;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+// dwarf picture
+<div class="dwarf-container">
+  
+  <img src="c:\Users\a250673db\Downloads\image-removebg-preview.png" class="dwarf">
+
+  <div class="dialogue">
+    <p id="dwarfText">Welcome to my forge, lad!</p>
+  </div>
+
+</div>
+<h1>DWARVEN FORGE</h1>
+<h2 id="goldText">Gold: 0</h2>
+<h3 id="bonusText">Power: 1</h3>
+
+<button id="upgradeBtn">Upgrade pickaxe (cost: 50)</button>
+<br>
+<button id="backBtn">Back</button>
+
+<script>
+const goldText = document.getElementById("goldText")
+const bonusText = document.getElementById("bonusText")
+const upgradeBtn = document.getElementById("upgradeBtn")
+const backBtn = document.getElementById("backBtn")
+
+let gold = localStorage.getItem("gold")
+gold = gold ? parseInt(gold) : 0
+
+let bonus = localStorage.getItem("bonus")
+bonus = bonus ? parseInt(bonus) : 1
+
+let cost = localStorage.getItem("cost")
+cost = cost ? parseInt(cost) : 50
+
+function updateUI() {
+  goldText.innerHTML = "Gold: " + gold
+  bonusText.innerHTML = "Power: " + bonus
+  upgradeBtn.innerHTML = "Upgrade pickaxe (cost: " + cost + ")"
+}
+
+// апгрейд
+upgradeBtn.addEventListener("click", () => {
+  if (gold >= cost) {
+    gold -= cost
+    bonus *= 2
+    cost *= 2
+
+    localStorage.setItem("gold", gold)
+    localStorage.setItem("bonus", bonus)
+    localStorage.setItem("cost", cost)
+
+    updateUI()
+  } else {
+    alert("Not enough gold!")
+  }
+})
+
+// назад
+backBtn.addEventListener("click", () => {
+  window.location.href = "index.html"
+})
+
+updateUI()
+</script>
+
+</body>
+</html>
