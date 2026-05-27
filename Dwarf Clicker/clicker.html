@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dwarf Clicker</title>
+
+<style>
+    body {
+    margin: 0;
+    height: 100vh;
+
+    background-image:
+        linear-gradient(rgba(0,0,0,0.6),
+        rgba(0,0,0,0.6)),
+        url('dwarf mine.jpg');
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+    color: white;
+    font-family: Arial Black;
+}
+
+    .game {
+        display: flex;
+        height: 100vh;
+    }
+
+    .left {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .shop {
+        width: 300px;
+        background: #38201a9a;
+        padding: 20px;
+    }
+
+    h1 {
+        margin-bottom: 10px;
+    }
+
+    #dwarf {
+        width: 350px;
+        cursor: pointer;
+        transition: 0.1s;
+    }
+
+    #dwarf:active {
+        transform: scale(0.95);
+    }
+
+    .shop button {
+        width: 100%;
+        margin-top: 10px;
+        padding: 10px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .shop-image{
+        width: 80px;
+        height: 80px;
+        object-fit: contain;
+    }
+
+    /* Золотой дворф */
+    .golden {
+        filter: drop-shadow(0 0 20px gold);
+    }
+</style>
+</head>
+
+<body>
+
+<div class="game">
+
+    <div class="left">
+
+        <h1>Dwarf Clicker</h1>
+        <h2>Gold: <span id="gold">0</span></h2>
+        <h3>Gold per click: <span id="power">1</span></h3>
+        <img
+            id="dwarf"
+            src="starter_dwarf.png"
+            onclick="mineGold()"
+        >
+
+    </div>
+
+    <div class="shop">
+        <h2>Shop</h2>
+        <button onclick="buyUpgrade(50, 1)">
+            <img src="iron_pickaxe.png" class="shop-image">
+            <br>
+            Iron Pickaxe (+1)
+            <br>
+            Cost: 50
+        </button>
+
+        <button onclick="buyUpgrade(150, 2, 'iron')">
+            <img src="dwarf_iron_armor.png" class="shop-image">
+            <br>
+            Iron Armor (+2)
+            <br>
+            Cost: 150
+        </button>
+
+        <button onclick="buyUpgrade(500, 5, 'bomb')">
+            <img src="dwarf_bomb.png"  style="width: 100%;" class="shop-image">
+            <br>
+            Dwarf bomb (+5)
+            <br>
+            Cost: 500
+        </button>
+
+        <button onclick="buyUpgrade(5000, 20, 'throne')">
+            <img src="king_crown.png"  style="width: 100%;" class="shop-image">
+            <br>
+            Become a High King of Dwarves! (+20)
+            <br>
+            Cost: 5000
+        </button>
+
+        <button onclick="buyBlessing()">
+            <img src="Grungni.png"  style="width: 100%;" class="shop-image">
+            <br>
+            Get a Grungni bless for 5 seconds (+50)
+            <br>
+            Cost: 2000
+        </button>
+    </div>
+</div>
+
+<script>
+
+    let gold = 0;
+    let clickPower = 1;
+
+    const goldText = document.getElementById("gold");
+    const powerText = document.getElementById("power");
+    const dwarf = document.getElementById("dwarf");
+
+    function mineGold() {
+        gold += clickPower;
+        goldText.innerText = gold;
+
+
+
+        if (Math.random() < 0.01) {
+            dwarf.classList.add("golden");
+            gold += 50;
+            goldText.innerText = gold;
+            setTimeout(() => {
+                dwarf.classList.remove("golden");
+            }, 1000);
+        }
+    }
+
+
+
+    function buyUpgrade(cost, bonus, type) {
+
+        if (gold >= cost) {
+            gold -= cost;
+            clickPower += bonus;
+            goldText.innerText = gold;
+            powerText.innerText = clickPower;
+
+            if (type === "iron"){
+                dwarf.src = "dwarf_with_iron_armor.png"
+            }
+
+            if (type === "bomb") {
+            dwarf.src = "dwarf_bomber.png";
+            }
+
+            if (type === "throne"){
+            dwarf.src = "Dwarf_high_king.png"
+            }
+        }
+        }
+
+    function buyBlessing(){
+        if (gold >= 2000){
+            gold -= 2000;
+
+        goldText.innerText = gold;
+        clickPower += 50;
+        powerText.innerText = clickPower;
+        dwarf.classList.add("golden");
+        alert("Blessing of Grungni activated for 5 seconds!");
+        setTimeout(() => {
+            clickPower -= 50;
+            powerText.innerText = clickPower;
+            dwarf.classList.remove("golden");
+        }, 5000);
+        }
+    }
+
+</script>
+
+</body>
+</html>
